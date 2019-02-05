@@ -1,4 +1,4 @@
-export PATH=/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin
+export PATH=/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/snap/bin
 # Make vim the default editor.
 export EDITOR='vim'
 

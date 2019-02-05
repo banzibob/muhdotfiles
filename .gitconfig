@@ -1,6 +1,6 @@
 [user]
-	name = Daniel Collette
-	email = dcollette@navicure.com
+	name = Sam Stachura
+	email = sam.stachura@hiscox.com
 [color]
 	ui = true
 [alias]
@@ -14,3 +14,4 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	required = true
+	process = git-lfs filter-process
