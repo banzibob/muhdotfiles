@@ -18,7 +18,7 @@ cp -v /home/$SUDO_USER/.* /home/$SUDO_USER/backup_dots
 
 # git submodules
 git submodule update --init --recursive
-git submodule update --update --recursive --remote
+git submodule update --recursive --remote
 
 # fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git /home/$SUDO_USER/.fzf
