@@ -3,7 +3,8 @@ parse_git_branch() {
 }
 
 # Set the terminal title and prompt.
-PS1="\u@\h:";
-PS1+="\W";
-PS1+="\$(parse_git_branch)$ ";
+#PS1="\u@\h:";
+PS1="\[\033[38;5;7m\]\u\[$(tput sgr0)\]\[\033[38;5;6m\]@\[$(tput sgr0)\]\[\033[38;5;7m\]\h\[$(tput sgr0)\]\[\033[38;5;6m\]:\[$(tput sgr0)\]\[\033[38;5;7m\]\W\[$(tput sgr0)\]\[\033[38;5;6m\]\\$\[$(tput sgr0)\]"
+#PS1+="\W";
+PS1+="\$(parse_git_branch) ";
 export PS1;

@@ -59,8 +59,8 @@ inoremap jk <esc>
 
 " search easier
 set gdefault
-nnoremap / /\v
-vnoremap / /\v
+"nnoremap / /\v
+"vnoremap / /\v
 set ignorecase
 set smartcase
 set incsearch
