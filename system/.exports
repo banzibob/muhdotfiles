@@ -3,12 +3,14 @@ export PATH=/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/snap/b
 export EDITOR='vim'
 
 # Go envs
-export PATH=$PATH:/usr/local/go/bin
+#export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:$HOME/workspace/go/bin
-export PATH=$PATH:$HOME/workspace/go/bin/wywe
-export GOPATH=$HOME/workspace/go
-export GOBIN=$HOME/workspace/go/bin/wywe
+export PATH=$PATH:/usr/local/go/bin
+#export PATH=$PATH:$HOME/projects/go/bin/wywe
+#export GOROOT=$HOME/projects/go
+export GOPATH=$HOME/projects/go
+export PATH=$PATH:$GOPATH/bin
+#export GOBIN=$HOME/projects/go/bin/wywe
 
 # Git envs
 
@@ -36,7 +38,7 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 
 export PATH=$PATH:/usr/lib/scala/bin
 export PATH=$PATH:/usr/share/apache-maven/bin
-export PATH=$PATH:~/workspace/spark-2.0.0-bin-hadoop2.7/bin
+export PATH=$PATH:~/projects/spark-2.0.0-bin-hadoop2.7/bin
 export JAVA_HOME=/usr
 export PATH=$PATH:~/protoc/bin
 export PATH=$PATH:~/node/bin
