@@ -52,6 +52,7 @@ clean_vim:
 	rm -Rf ~/.vim
 
 install_nvim: clean_nvim
+	mkdir -p ~/.config
 	ln -sf `pwd`/.vim/ ~/.config/nvim
 	ln -sf `pwd`/.vimrc ~/.config/nvim/init.vim
 
