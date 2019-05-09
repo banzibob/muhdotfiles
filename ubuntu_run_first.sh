@@ -1,3 +1,4 @@
+#!/bin/sh
 # this completes the manual handle jiggling to get the dotfiles installed on a fresh ubuntu box
 # run this in the mudotfiles directory
 
