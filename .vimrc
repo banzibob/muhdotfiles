@@ -211,8 +211,8 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_disable_autoinstall = 0
 let g:go_fmt_command = "goimports"
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+"let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 let g:go_list_type = "quickfix"
 let g:go_metalinter_enabled = 1
 
@@ -227,22 +227,48 @@ au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
 
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" see :h syntastic-loclist-callback
-function! SyntasticCheckHook(errors)
-    if !empty(a:errors)
-        let g:syntastic_loc_list_height = min([len(a:errors), 10])
+" ale
+" this opens the ale window in the bottom of vim
+let g:ale_open_list = 1
+" opens ale quick fix list
+let g:ale_set_quickfix = 1
+" limits errors shown in list to 10 lines (errors are wrapped)
+let g:ale_list_window_size_max = 10
+" sets the windows list size to only how many errors are found
+autocmd User ALELintPost call s:ale_loclist_limit()
+function! s:ale_loclist_limit()
+    if exists("b:ale_list_window_size_max")
+        let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), b:ale_list_window_size_max])
+    elseif exists("g:ale_list_window_size_max")
+        let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), g:ale_list_window_size_max])
     endif
 endfunction
+" see :help g:ale_open_list
+" Fix files with prettier, and then ESLint.
+let g:ale_fixers = ['prettier', 'eslint']
+" Use ALE and also some plugin 'foobar' as completion sources for all code.
+"let g:deoplete#sources = {'_': ['ale', 'foobar']}
+" Enable completion where available.
+" This setting must be set before ALE is loaded.
+"
+" You should not turn this setting on if you wish to use ALE as a completion
+" source for other completion plugins, like Deoplete.
+let g:ale_completion_enabled = 1 
+
+"" syntastic
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"" see :h syntastic-loclist-callback
+"function! SyntasticCheckHook(errors)
+"    if !empty(a:errors)
+"        let g:syntastic_loc_list_height = min([len(a:errors), 10])
+"    endif
+"endfunction
 
 " airline
 set laststatus=2
