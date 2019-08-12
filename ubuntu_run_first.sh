@@ -13,7 +13,7 @@ echo "------ basics install complete ------"
 # install specials
 add-apt-repository -y ppa:neovim-ppa/stable
 apt-get update
-apt-get install -y neovim
+apt-get install -y neovim vim-nox vim-gtk vim-gnome vim-athena lua5.3
 echo "------ specials install complete ------"
 
 # backup dot files

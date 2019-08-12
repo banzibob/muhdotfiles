@@ -128,42 +128,42 @@ let @c = "o.chain_err(|| \"jkA?;jkb"
 let @u = "o.unwrap();jk"
 " creates test module in rust
 let @t =
-	\ "o#[cfg(testjkomod tests {use super::*;#[testjkofn test() {assert!(falsejkA;jk"
+    \ "o#[cfg(testjkomod tests {use super::*;#[testjkofn test() {assert!(falsejkA;jk"
 
 command! -nargs=? -range Dec2hex call s:Dec2hex(<line1>, <line2>, '<args>')
 function! s:Dec2hex(line1, line2, arg) range
-  if empty(a:arg)
-    if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
-      let cmd = 's/\%V\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
+    if empty(a:arg)
+        if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
+            let cmd = 's/\%V\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
+        else
+            let cmd = 's/\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
+        endif
+        try
+            execute a:line1 . ',' . a:line2 . cmd
+        catch
+            echo 'Error: No decimal number found'
+        endtry
     else
-      let cmd = 's/\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
+        echo printf('%x', a:arg + 0)
     endif
-    try
-      execute a:line1 . ',' . a:line2 . cmd
-    catch
-      echo 'Error: No decimal number found'
-    endtry
-  else
-    echo printf('%x', a:arg + 0)
-  endif
 endfunction
 
 command! -nargs=? -range Hex2dec call s:Hex2dec(<line1>, <line2>, '<args>')
 function! s:Hex2dec(line1, line2, arg) range
-  if empty(a:arg)
-    if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
-      let cmd = 's/\%V0x\x\+/\=submatch(0)+0/g'
+    if empty(a:arg)
+        if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
+            let cmd = 's/\%V0x\x\+/\=submatch(0)+0/g'
+        else
+            let cmd = 's/0x\x\+/\=submatch(0)+0/g'
+        endif
+        try
+            execute a:line1 . ',' . a:line2 . cmd
+        catch
+            echo 'Error: No hex number starting "0x" found'
+        endtry
     else
-      let cmd = 's/0x\x\+/\=submatch(0)+0/g'
+        echo (a:arg =~? '^0x') ? a:arg + 0 : ('0x'.a:arg) + 0
     endif
-    try
-      execute a:line1 . ',' . a:line2 . cmd
-    catch
-      echo 'Error: No hex number starting "0x" found'
-    endtry
-  else
-    echo (a:arg =~? '^0x') ? a:arg + 0 : ('0x'.a:arg) + 0
-  endif
 endfunction
 
 " }}}
@@ -202,19 +202,19 @@ nnoremap <leader>a :Ag<Space>
 nnoremap <C>p :Files<CR>
 set rtp+=~/.fzf
 
-" vim-go golang
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_interfaces = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_disable_autoinstall = 0
-let g:go_fmt_command = "goimports"
-"let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-let g:go_list_type = "quickfix"
-let g:go_metalinter_enabled = 1
+"" vim-go golang
+"let g:go_highlight_functions = 1
+"let g:go_highlight_methods = 1
+"let g:go_highlight_structs = 1
+"let g:go_highlight_interfaces = 1
+"let g:go_highlight_operators = 1
+"let g:go_highlight_build_constraints = 1
+"let g:go_disable_autoinstall = 0
+"let g:go_fmt_command = "goimports"
+""let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+""let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+"let g:go_list_type = "quickfix"
+"let g:go_metalinter_enabled = 1
 
 au FileType go nmap <leader>gr <Plug>(go-run)
 au FileType go nmap <leader>gi <Plug>(go-install)
@@ -224,14 +224,37 @@ au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
 
-" neocomplete
-let g:neocomplete#enable_at_startup = 1
+"" neocomplete "deprecating in favor of deoplete
+"let g:neocomplete#enable_at_startup = 1
+" deoplete
+"let g:deoplete#enable_at_startup = 1
+"call deoplete#custom#option('num_processes', 1)
+"let g:deoplete#enable_smart_case = 1
 
 " ale
+" Use ALE and also some plugin 'foobar' as completion sources for all code.
+"let g:deoplete#sources = {'_': ['ale', 'foobar']}
+" Enable completion where available.
+" This setting must be set before ALE is loaded.
+" You should not turn this setting on if you wish to use ALE as a completion
+" source for other completion plugins, like Deoplete.
+let g:ale_completion_enabled = 1
+
 " this opens the ale window in the bottom of vim
 let g:ale_open_list = 1
 " opens ale quick fix list
 let g:ale_set_quickfix = 1
+" Toggle ALE quick list
+noremap <Leader>l :call QFixToggle()<CR>
+function! QFixToggle()
+    if exists("g:qfix_win")
+        cclose
+        unlet g:qfix_win
+    else
+        copen 10
+        let g:qfix_win = bufnr("$")
+    endif
+endfunction
 " limits errors shown in list to 10 lines (errors are wrapped)
 let g:ale_list_window_size_max = 10
 " sets the windows list size to only how many errors are found
@@ -246,14 +269,7 @@ endfunction
 " see :help g:ale_open_list
 " Fix files with prettier, and then ESLint.
 let g:ale_fixers = ['prettier', 'eslint']
-" Use ALE and also some plugin 'foobar' as completion sources for all code.
-"let g:deoplete#sources = {'_': ['ale', 'foobar']}
-" Enable completion where available.
-" This setting must be set before ALE is loaded.
-"
-" You should not turn this setting on if you wish to use ALE as a completion
-" source for other completion plugins, like Deoplete.
-let g:ale_completion_enabled = 1 
+let g:ale_javascript_eslint_use_global = 1
 
 "" syntastic
 "set statusline+=%#warningmsg#
@@ -274,24 +290,24 @@ let g:ale_completion_enabled = 1
 set laststatus=2
 let g:airline_theme='gruvbox'
 
-" vim-ansible-yaml
-let g:ansible_options = {'ignore_blank_lines': 0}
-let g:ansible_options = {'documentation_mapping': '<C-K>'}
+"" vim-ansible-yaml
+"let g:ansible_options = {'ignore_blank_lines': 0}
+"let g:ansible_options = {'documentation_mapping': '<C-K>'}
 
 " NERD Commenter
 nnoremap <leader>cB <plug>NERDCommenterAlignBoth
 
-" vim-rust
-nnoremap <leader>cb :CargoBuild<CR>
-nnoremap <leader>cr :CargoRun<CR>
-nnoremap <leader>ct :CargoTest<CR>
-let g:rustfmt_autosave = 0
+"" vim-rust
+"nnoremap <leader>cb :CargoBuild<CR>
+"nnoremap <leader>cr :CargoRun<CR>
+"nnoremap <leader>ct :CargoTest<CR>
+"let g:rustfmt_autosave = 0
 
-" vim-racer
-set hidden
-let g:racer_cmd = "~/.cargo/bin/racer"
-let $RUST_SRC_PATH="~/muhdotfiles/deps/rust/src/"
-let g:racer_experimental_completer = 1
+"" vim-racer
+"set hidden
+"let g:racer_cmd = "~/.cargo/bin/racer"
+"let $RUST_SRC_PATH="~/muhdotfiles/deps/rust/src/"
+"let g:racer_experimental_completer = 1
 
 " rainbow parens
 autocmd FileType lisp,clojure,scheme RainbowParentheses

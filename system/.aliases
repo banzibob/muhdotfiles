@@ -29,3 +29,6 @@ alias br=". ~/.bash_profile"
 # docker for wsl (only enable if on wsl and did this: https://blog.jayway.com/2017/04/19/running-docker-on-bash-on-windows/)
 alias docker="/mnt/c/Program\ Files/Docker/Docker/resources/bin/docker.exe"
 alias docker-compose="/mnt/c/Program\ Files/Docker/Docker/resources/bin/docker-compose.exe"
+
+# lua pointing at lua5.3
+alias lua="lua5.3"
