@@ -1,24 +1,24 @@
 [user]
-	name = sam
+    name = sam
     email = sam.stachura@gmail.com
 [color]
-	ui = true
+    ui = true
 [alias]
-	s = status
-	a = !git add . && git s
-	cm = commit -m
-	pushit = push -u origin --all
-	rmrf = rm -rf
-	mv = mv -v
+    s = status
+    a = !git add . && git s
+    cm = commit -m
+    pushit = push -u origin --all
+    rmrf = rm -rf
+    mv = mv -v
     lg = log --pretty=oneline --graph --stat
     lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all --stat
     lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 [url "ssh://git@"]
     insteadOf = git://
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	required = true
-	process = git-lfs filter-process
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    required = true
+    process = git-lfs filter-process
 [core]
-	autocrlf = false
+    autocrlf = false

@@ -31,14 +31,61 @@ extract () {
 }
 
 function mkd() {
-  mkdir -p "$@" && cd "$_";
+  mkdir -p "$@" && cd "$_"
 }
 
-fd() {
+function fd() {
     # fd - cd to selected directory
     local dir
-	dir=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) &&
-		cd "$dir"
+    dir=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) &&
+        cd "$dir"
+}
+
+function repouserfix() {
+    # set repo user to appropriate per the repo origin url
+    WORKUSER="sam.stachura"
+    WORKEMAIL="sam.stachura@hiscox.com"
+    PERSONALUSER="sam"
+    PERSONALEMAIL="sam.stachura@gmail.com"
+    REMOTE=$(git config --local --get remote.origin.url)
+    case $REMOTE in
+        "")
+            echo "not a repo"
+            ;;
+
+        *hiscox*)
+            echo "hiscox repo: $REMOTE"
+            GITUSEREMAIL=$(git config --local user.email)
+            if [ "$GITUSEREMAIL" != "$WORKEMAIL" ]; then
+                echo "setting git user to work"
+                git config user.name $WORKUSER && git config user.name
+                git config user.email $WORKEMAIL && git config user.email
+            else
+                echo "leaving git local user alone as: $GITUSEREMAIL"
+            fi
+            ;;
+
+        *)
+            echo "personal repo: $REMOTE"
+            GITUSEREMAIL=$(git config user.email)
+            if [ "$GITUSEREMAIL" != "$PERSONALEMAIL" ]; then
+                echo "setting git user to personal"
+                git config user.name $PERSONALUSER && git config user.name
+                git config user.email $PERSONALEMAIL && git config user.email
+            else
+                echo "leaving git local user alone as: $GITUSEREMAIL"
+            fi
+            ;;
+    esac
+}
+
+function repouserfixdir() {
+    # set all repos in working directory to appropriate git user
+    for d in ./**/
+    do
+        (cd "$d" && repouserfix )
+        echo " "
+    done
 }
 
 # Tmux {{{
