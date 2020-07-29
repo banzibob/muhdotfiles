@@ -30,18 +30,18 @@ extract () {
     fi
 }
 
-function mkd() {
-  mkdir -p "$@" && cd "$_"
+mkd() {
+    mkdir -p "$@" && cd "$_";
 }
 
-function fd() {
+fd() {
     # fd - cd to selected directory
     local dir
     dir=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) &&
         cd "$dir"
 }
 
-function repouserfix() {
+repouserfix() {
     # set repo user to appropriate per the repo origin url
     WORKUSER="sam.stachura"
     WORKEMAIL="sam.stachura@hiscox.com"
@@ -79,7 +79,7 @@ function repouserfix() {
     esac
 }
 
-function repouserfixdir() {
+repouserfixdir() {
     # set all repos in working directory to appropriate git user
     for d in ./**/
     do
@@ -90,15 +90,15 @@ function repouserfixdir() {
 
 # Tmux {{{
 # Makes creating a new tmux session (with a specific name) easier
-function tmuxopen() {
+tmuxopen() {
   tmux attach -t $1
 }
 # Makes creating a new tmux session (with a specific name) easier
-function tmuxnew() {
+tmuxnew() {
   tmux new -s $1
 }
 # Makes deleting a tmux session easier
-function tmuxkill() {
+tmuxkill() {
   tmux kill-session -t $1
 }
 # }}}
