@@ -32,3 +32,11 @@ alias docker-compose="/mnt/c/Program\ Files/Docker/Docker/resources/bin/docker-c
 
 # lua pointing at lua5.3
 alias lua="lua5.3"
+
+# wsl powershell pointing at windows
+alias powershell.exe="/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
+alias powershell="/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
+
+# terraform 11 & 12 switching alias
+#alias terraform="terraform11"
+alias terraform="terraform12"
